@@ -103,6 +103,18 @@
             font-weight: 600;
         }
 
+        pre {
+            background-color: #0f172a;
+            color: #38bdf8;
+            padding: 20px;
+            border-radius: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 12px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
         .step-title {
             background-color: #eff6ff;
             color: #1d4ed8;
@@ -160,7 +172,6 @@
             <p>Sistem Antrian LAN Terdistribusi RS Waluyo (Anti-Blackout Version)</p>
         </header>
 
-        <!-- SECTION 1 -->
         <div class="card">
             <h2>1. Gambaran Umum Sistem</h2>
             <p>Sistem Antrian LAN Terdistribusi RS Waluyo dirancang khusus untuk mengotomatisasi seluruh proses
@@ -188,20 +199,23 @@
             <ul>
                 <li><strong>Kios Tiket Multi-Poli:</strong> Penomoran otomatis berbasis prefiks poli (Umum: A, Gigi: B,
                     Anak: C).</li>
-                <li><strong>Real-Time WebSocket Sync:</strong> Transmisi data instan antar perangkat memanfaatkan
-                    library <code>Socket.io</code>.</li>
-                <li><strong>Voice Announcement System:</strong> Suara bel otomatis ("Ding Dong") yang ditiupkan langsung
-                    dari browser TV ruang tunggu.</li>
+                <li><strong>Real-Time WebSocket Sync:</strong> Transmisi data instan dua arah antar perangkat
+                    memanfaatkan
+                    library <code>Socket.io</code> melalui integrasi event data terpusat.</li>
+                <li><strong>Voice Announcement System:</strong> Suara bel otomatis (<code>suaraBel</code>) yang
+                    ditiupkan langsung
+                    dari browser TV ruang tunggu setelah interaksi klik pertama pada layar.</li>
                 <li><strong>Anti-Blackout Storage:</strong> Keamanan data tingkat tinggi menggunakan modul
-                    <code>fs</code> (File System) Node.js yang menyimpan data antrian ke dalam harddisk fisik server
-                    setiap kali ada perubahan, melindunginya dari risiko mati lampu.
+                    <code>fs</code> (File System) Node.js yang menuliskan objek data ke harddisk fisik server
+                    (<code>antrian.json</code>) setiap kali ada perubahan pendaftaran maupun panggilan, melindunginya
+                    dari risiko mati lampu.
                 </li>
                 <li><strong>Auto-Reset System:</strong> Reset berkala data antrian menjadi <code>000</code> secara
-                    otomatis setiap kali mendeteksi tanggal baru di hari berikutnya.</li>
+                    otomatis setiap kali memuat ulang server pada deteksi tanggal hari berikutnya
+                    (<code>new Date().toDateString()</code>).</li>
             </ul>
         </div>
 
-        <!-- SECTION 2 -->
         <div class="card">
             <h2>2. Panduan Penggunaan Fitur Secara Terurut</h2>
             <p>Sistem ini beroperasi mengikuti urutan sekuensial yang saling terintegrasi antar perangkat sebagai
@@ -210,8 +224,10 @@
             <div>
                 <div class="step-title">Langkah 1: Pengambilan Tiket (Kios Pasien)</div>
                 <p>Pasien menggunakan HP/Tablet di lobi utama yang mengarah ke alamat URL
-                    <code>http://IP_SERVER:5500/public/kios.html</code>. Pasien memilih poliklinik yang dituju, dan
-                    layar akan menampilkan nomor tiket resmi (misal: <code>B-001</code>).
+                    <code>http://IP_SERVER:5500/public/kios.html</code>. Pasien memilih salah satu tombol poliklinik
+                    (<code>UMUM</code>, <code>GIGI</code>, atau <code>ANAK</code>). Sistem memicu event
+                    <code>ambilTiket</code>, menaikkan counter pendaftar, membuat nomor antrian terformat, memasukkan
+                    riwayat ke array history dengan status menunggu, dan mengamankannya ke harddisk.
                 </p>
             </div>
 
@@ -219,29 +235,55 @@
                 <div class="step-title">Langkah 2: Pemantauan Layar Tunggu (TV Monitor)</div>
                 <p>Petugas menyalakan browser Smart TV di ruang tunggu dan membuka alamat URL
                     <code>http://IP_SERVER:5500/public/monitor.html</code>. Petugas wajib melakukan <strong>klik satu
-                        kali</strong> pada area layar mana saja untuk memicu aktivasi sistem audio bel browser.
+                        kali</strong> pada area layar mana saja untuk memicu aktivasi sistem audio bel browser agar
+                    dapat mendengarkan siaran suara panggil otomatis.
                 </p>
             </div>
 
             <div>
                 <div class="step-title">Langkah 3: Pemanggilan Pasien (HP Dokter)</div>
                 <p>Dokter membuka HP pribadinya, mengakses portal utama <code>http://IP_SERVER:5500</code>, dan masuk ke
-                    Panel Medis sesuai poliklinik tugasnya. Ketika dokter menekan tombol <strong>"Panggil
-                        Selanjutnya"</strong>, server memperbarui status data di harddisk, merubah nomor di TV ruang
-                    tunggu, dan langsung menyalakan bunyi bel panggilan.</p>
+                    Panel Medis dengan data yang tersimpan di <code>localStorage</code> (<code>petugas_user</code> dan
+                    <code>petugas_poli</code>). Dokter dapat melacak total antrian di kios lewat box status
+                    <strong>Total Antrian Diambil Kios</strong>. Ketika menekan tombol <strong>"Panggil
+                        Selanjutnya"</strong>, server memperbarui status array history menjadi dipanggil, mengubah
+                    penunjuk nomor aktif loket, dan memancarkan sinyal pemicu bel suara ke TV monitor ruang tunggu.</p>
             </div>
 
             <div>
                 <div class="step-title">Langkah 4: Penyelesaian Sesi</div>
                 <p>Begitu penanganan medis selesai, dokter menekan tombol <strong>"Selesai Penanganan"</strong> pada HP
-                    miliknya agar indikator loket di monitor TV berubah menjadi status <code>SELESAI</code> dan siap
-                    memanggil pasien selanjutnya.</p>
+                    miliknya. Sistem akan memicu pembaruan data backend, merubah status tiket menjadi selesai, serta
+                    memperbarui nilai counter aktif monitor TV menjadi teks <code>SELESAI</code> sehingga loket siap
+                    memproses antrian berikutnya.</p>
             </div>
         </div>
 
-        <!-- SECTION 3 -->
         <div class="card">
-            <h2>3. Tim Pengembang Proyek</h2>
+            <h2>3. Spesifikasi Arsitektur Penyimpanan Data Persistent Storage</h2>
+            <p>Data dikunci dalam bentuk file teks terstruktur terpusat di direktori root server dengan nama file
+                <code>antrian.json</code>. Struktur objek disusun sebagai berikut:</p>
+            <pre>{
+  "tanggal": "Tue Jun 16 2026",
+  "history": [
+    {
+      "id": 1718548200000,
+      "poli": "UMUM",
+      "nomor": "A-001",
+      "status": "selesai",
+      "oleh": "DR. BUDI"
+    }
+  ],
+  "counters": {
+    "UMUM": { "current": 1, "active": "SELESAI", "prefix": "A", "petugas": "DR. BUDI" },
+    "GIGI": { "current": 0, "active": "000", "prefix": "B", "petugas": "-" },
+    "ANAK": { "current": 0, "active": "000", "prefix": "C", "petugas": "-" }
+  }
+}</pre>
+        </div>
+
+        <div class="card">
+            <h2>4. Tim Pengembang Proyek</h2>
             <p>Sistem perangkat lunak terdistribusi ini dikembangkan secara kolaboratif oleh:</p>
             <div class="team-grid">
                 <div class="team-member">
@@ -249,7 +291,7 @@
                     <p>Fullstack Developer & Architecture</p>
                 </div>
                 <div class="team-member">
-                    <h4>IRMA,WIDYA,MUTAMIMMAH</h4>
+                    <h4>IRMA, WIDYA, MUTAMIMMAH</h4>
                     <p>Frontend UI/UX Designer</p>
                 </div>
                 <div class="team-member">
@@ -261,7 +303,7 @@
 
         <footer>
             &copy; 2026 Tim Proyek RS Waluyo. Dibuat untuk memenuhi Tugas Besar Pengembangan Perangkat Lunak. Hosted via
-            GitHub Pages.
+            GitHub Pages & Local Intranet Network.
         </footer>
     </div>
 
