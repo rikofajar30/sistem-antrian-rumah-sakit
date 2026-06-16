@@ -111,7 +111,7 @@
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.9rem;
             overflow-x: auto;
-            margin-top: 12px;
+            margin: 16px 0;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
@@ -201,7 +201,7 @@
                     Anak: C).</li>
                 <li><strong>Real-Time WebSocket Sync:</strong> Transmisi data instan dua arah antar perangkat
                     memanfaatkan
-                    library <code>Socket.io</code> melalui integrasi event data terpusat.</li>
+                    library <code>Socket.io</code> melalui integrasi event data terpusat (<code>updateData</code>).</li>
                 <li><strong>Voice Announcement System:</strong> Suara bel otomatis (<code>suaraBel</code>) yang
                     ditiupkan langsung
                     dari browser TV ruang tunggu setelah interaksi klik pertama pada layar.</li>
@@ -226,8 +226,9 @@
                 <p>Pasien menggunakan HP/Tablet di lobi utama yang mengarah ke alamat URL
                     <code>http://IP_SERVER:5500/public/kios.html</code>. Pasien memilih salah satu tombol poliklinik
                     (<code>UMUM</code>, <code>GIGI</code>, atau <code>ANAK</code>). Sistem memicu event
-                    <code>ambilTiket</code>, menaikkan counter pendaftar, membuat nomor antrian terformat, memasukkan
-                    riwayat ke array history dengan status menunggu, dan mengamankannya ke harddisk.
+                    <code>ambilTiket</code>, menaikkan counter pendaftar (<code>.current</code>), membuat nomor antrian
+                    terformat, memasukkan riwayat ke array history dengan status menunggu, dan mengamankannya ke
+                    harddisk.
                 </p>
             </div>
 
@@ -243,9 +244,9 @@
             <div>
                 <div class="step-title">Langkah 3: Pemanggilan Pasien (HP Dokter)</div>
                 <p>Dokter membuka HP pribadinya, mengakses portal utama <code>http://IP_SERVER:5500</code>, dan masuk ke
-                    Panel Medis dengan data yang tersimpan di <code>localStorage</code> (<code>petugas_user</code> dan
-                    <code>petugas_poli</code>). Dokter dapat melacak total antrian di kios lewat box status
-                    <strong>Total Antrian Diambil Kios</strong>. Ketika menekan tombol <strong>"Panggil
+                    Panel Medis sesuai poliklinik tugasnya. Sesi login tersimpan otomatis di browser
+                    (<code>localStorage.getItem('petugas_poli')</code>). Dokter dapat melacak total antrian di kios
+                    lewat box status <strong>Total Antrian Diambil Kios</strong>. Ketika menekan tombol <strong>"Panggil
                         Selanjutnya"</strong>, server memperbarui status array history menjadi dipanggil, mengubah
                     penunjuk nomor aktif loket, dan memancarkan sinyal pemicu bel suara ke TV monitor ruang tunggu.</p>
             </div>
@@ -260,26 +261,51 @@
         </div>
 
         <div class="card">
-            <h2>3. Spesifikasi Arsitektur Penyimpanan Data Persistent Storage</h2>
-            <p>Data dikunci dalam bentuk file teks terstruktur terpusat di direktori root server dengan nama file
-                <code>antrian.json</code>. Struktur objek disusun sebagai berikut:</p>
-            <pre>{
-  "tanggal": "Tue Jun 16 2026",
-  "history": [
-    {
-      "id": 1718548200000,
-      "poli": "UMUM",
-      "nomor": "A-001",
-      "status": "selesai",
-      "oleh": "DR. BUDI"
-    }
-  ],
-  "counters": {
-    "UMUM": { "current": 1, "active": "SELESAI", "prefix": "A", "petugas": "DR. BUDI" },
-    "GIGI": { "current": 0, "active": "000", "prefix": "B", "petugas": "-" },
-    "ANAK": { "current": 0, "active": "000", "prefix": "C", "petugas": "-" }
-  }
-}</pre>
+            <h2>3. Panduan Pemasangan dan Konfigurasi Jaringan (Deployment Guide)</h2>
+            <p>Sistem ini menggunakan arsitektur <strong>Pusat-Cabang (Server-Client)</strong> berbasis jaringan lokal.
+                Node.js hanya perlu diinstal di <strong>Satu Laptop (yang bertindak sebagai Server)</strong>, sedangkan
+                perangkat lain bertindak sebagai pengguna.</p>
+
+            <h3>Bagian A: Persiapan pada Perangkat Laptop Server (Pusat Data)</h3>
+            <ol>
+                <li><strong>Instalasi Runtime Environment:</strong> Unduh dan instal <strong>Node.js</strong> (versi LTS
+                    disarankan) pada laptop yang akan dijadikan server utama pangkalan data rumah sakit.</li>
+                <li><strong>Ekstraksi Source Code:</strong> Salin folder proyek sistem antrian ke direktori laptop
+                    server.</li>
+                <li><strong>Instalasi Dependensi:</strong> Buka terminal (Command Prompt/PowerShell) di dalam folder
+                    proyek tersebut, lalu jalankan perintah berikut untuk menginstal modul Express dan Socket.io:
+                    <pre>npm install express socket.io</pre>
+                </li>
+                <li><strong>Mengetahui IP Lokal Server:</strong> Buka terminal baru dan ketik perintah
+                    <code>ipconfig</code> (Windows) atau <code>ifconfig</code> (Mac/Linux). Cari bagian <em>IPv4
+                        Address</em> pada adaptor jaringan Wi-Fi/Ethernet yang aktif (Contoh:
+                    <code>192.168.1.15</code>). Catat nomor IP ini.</li>
+                <li><strong>Menjalankan Server:</strong> Eksekusi program backend dengan mengetik perintah berikut di
+                    terminal:
+                    <pre>node server.js</pre>
+                    Pastikan muncul pesan log yang menyatakan server anti-blackout aktif di port <code>5500</code>.
+                </li>
+            </ol>
+
+            <h3>Bagian B: Konfigurasi Keamanan Jaringan (Penting!)</h3>
+            <p>Agar laptop atau HP orang lain dapat mengakses server, sistem <strong>Firewall Windows</strong> pada
+                laptop server harus mengizinkan lalu lintas port <code>5500</code>, atau matikan Windows Defender
+                Firewall untuk jaringan lokal (Private Network) secara sementara selama simulasi berlangsung guna
+                menghindari error <code>Connection Timed Out</code>.</p>
+
+            <h3>Bagian C: Menghubungkan Perangkat Client (Laptop/HP Orang Lain)</h3>
+            <p>Pastikan semua perangkat client terhubung ke router Wi-Fi atau access point lokal yang
+                <strong>sama</strong> dengan laptop server. Perangkat client <strong>tidak perlu menginstal
+                    Node.js</strong>, mereka cukup membuka web browser dan mengakses URL berikut menggunakan IP Lokal
+                Server yang telah dicatat sebelumnya:</p>
+
+            <ul>
+                <li><strong>Kios Pengambilan Tiket
+                        Pasien:</strong><br><code>http://IP_SERVER_ANDA:5500/public/kios.html</code></li>
+                <li><strong>Layar TV Monitor Ruang
+                        Tunggu:</strong><br><code>http://IP_SERVER_ANDA:5500/public/monitor.html</code></li>
+                <li><strong>Portal Utama / Dashboard HP Dokter:</strong><br><code>http://IP_SERVER_ANDA:5500</code></li>
+            </ul>
         </div>
 
         <div class="card">
