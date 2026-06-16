@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Dokter - RS Sehat Waluyo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <nav class="bg-white border-b h-20 flex items-center justify-between px-6 shadow-sm">
+        <div class="flex items-center gap-2">
+            <span class="text-lg">👨‍⚕️</span>
+            <span class="text-sm font-bold text-slate-500">DASHBOARD KERJA: <span id="nama-petugas"
+                    class="text-blue-600 font-black uppercase tracking-wider ml-1"></span></span>
+        </div>
+        <button onclick="keluarSistem()"
+            class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-bold px-4 py-2.5 rounded-xl transition shadow-inner">Keluar</button>
+    </nav>
+
+    <main class="max-w-md mx-auto w-full px-6 py-10 my-auto">
+        <div id="card-kontrole"
+            class="bg-white border-2 border-blue-500/20 rounded-3xl p-8 flex flex-col justify-between space-y-6 shadow-xl relative overflow-hidden">
+            <div class="border-b pb-4 text-center">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Antrian Aktif Sekarang</span>
+            </div>
+
+            <div class="bg-slate-50 border rounded-2xl py-10 text-center shadow-inner">
+                <span id="adm-nomor" class="text-6xl font-black text-slate-800 tracking-tight">000</span>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="mintaKonfirmasi()"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-sm shadow-md transition">🔊
+                    Panggil Selanjutnya</button>
+                <button onclick="selesaiLayani()"
+                    class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl text-xs transition">✅
+                    Selesai Ditangani</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-konfirmasi"
+        class="hidden fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-6 rounded-3xl w-full max-w-sm space-y-4 text-center border shadow-2xl">
+            <h4 class="font-extrabold text-slate-900 text-base">⚠️ Validasi Panggilan</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Panggil urutan pasien berikutnya? Pastikan rekam medis
+                pasien sebelumnya sudah rapi.</p>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="batalPanggil()"
+                    class="bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl text-xs">Batal</button>
+                <button onclick="eksekusiPanggil()"
+                    class="bg-blue-600 text-white font-bold py-2.5 rounded-xl text-xs hover:bg-blue-700 shadow-md">Ya,
+                    Panggil</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 text-center text-xs text-slate-400 font-medium border-t bg-white">&copy; 2026 RS Sehat Waluyo
+        Terminal Control.</footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/src/js/admin.js"></script>
+</body>
+
+</html>

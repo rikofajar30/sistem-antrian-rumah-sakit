@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentasi Resmi Sistem Antrian RS Waluyo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.7;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.03em;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 20px;
+            border-left: 5px solid #3b82f6;
+            padding-left: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: #475569;
+        }
+
+        ul,
+        ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+            color: #475569;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .step-title {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            padding: 8px 16px;
+            border-radius: 10px;
+            display: inline-block;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .team-member {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .team-member h4 {
+            font-size: 1.1rem;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .team-member p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0;
+            margin-top: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🏥 PORTAL DOKUMENTASI RESMI</h1>
+            <p>Sistem Antrian LAN Terdistribusi RS Waluyo (Anti-Blackout Version)</p>
+        </header>
+
+        <!-- SECTION 1 -->
+        <div class="card">
+            <h2>1. Gambaran Umum Sistem</h2>
+            <p>Sistem Antrian LAN Terdistribusi RS Waluyo dirancang khusus untuk mengotomatisasi seluruh proses
+                administrasi penomoran antrian pasien di poliklinik secara <strong>real-time</strong> tanpa menggunakan
+                koneksi internet luar (murni menggunakan jaringan intranet / LAN).</p>
+
+            <h3>Tujuan dan Manfaat</h3>
+            <ul>
+                <li><strong>Tujuan:</strong> Mempercepat alur pelayanan loket rumah sakit dan mengintegrasikan antrian
+                    lintas poliklinik secara terpusat.</li>
+                <li><strong>Manfaat:</strong> Menghilangkan penumpukan antrean fisik, meningkatkan transparansi pameran
+                    nomor lewat TV monitor ruang tunggu, serta mempermudah dokter memanggil pasien jarak jauh via HP
+                    pribadi.</li>
+            </ul>
+
+            <h3>Target Pengguna</h3>
+            <ol>
+                <li><strong>Pasien:</strong> Pengambil nomor tiket mandiri pada unit kios di lobi utama.</li>
+                <li><strong>Dokter / Perawat:</strong> Pemegang kendali panggilan antrian poliklinik melalui dashboard
+                    HP medis.</li>
+                <li><strong>Pengunjung Umum:</strong> Pemantau status antrian pada layar TV utama di ruang tunggu.</li>
+            </ol>
+
+            <h3>Fitur Unggulan</h3>
+            <ul>
+                <li><strong>Kios Tiket Multi-Poli:</strong> Penomoran otomatis berbasis prefiks poli (Umum: A, Gigi: B,
+                    Anak: C).</li>
+                <li><strong>Real-Time WebSocket Sync:</strong> Transmisi data instan antar perangkat memanfaatkan
+                    library <code>Socket.io</code>.</li>
+                <li><strong>Voice Announcement System:</strong> Suara bel otomatis ("Ding Dong") yang ditiupkan langsung
+                    dari browser TV ruang tunggu.</li>
+                <li><strong>Anti-Blackout Storage:</strong> Keamanan data tingkat tinggi menggunakan modul
+                    <code>fs</code> (File System) Node.js yang menyimpan data antrian ke dalam harddisk fisik server
+                    setiap kali ada perubahan, melindunginya dari risiko mati lampu.
+                </li>
+                <li><strong>Auto-Reset System:</strong> Reset berkala data antrian menjadi <code>000</code> secara
+                    otomatis setiap kali mendeteksi tanggal baru di hari berikutnya.</li>
+            </ul>
+        </div>
+
+        <!-- SECTION 2 -->
+        <div class="card">
+            <h2>2. Panduan Penggunaan Fitur Secara Terurut</h2>
+            <p>Sistem ini beroperasi mengikuti urutan sekuensial yang saling terintegrasi antar perangkat sebagai
+                berikut:</p>
+
+            <div>
+                <div class="step-title">Langkah 1: Pengambilan Tiket (Kios Pasien)</div>
+                <p>Pasien menggunakan HP/Tablet di lobi utama yang mengarah ke alamat URL
+                    <code>http://IP_SERVER:5500/public/kios.html</code>. Pasien memilih poliklinik yang dituju, dan
+                    layar akan menampilkan nomor tiket resmi (misal: <code>B-001</code>).
+                </p>
+            </div>
+
+            <div>
+                <div class="step-title">Langkah 2: Pemantauan Layar Tunggu (TV Monitor)</div>
+                <p>Petugas menyalakan browser Smart TV di ruang tunggu dan membuka alamat URL
+                    <code>http://IP_SERVER:5500/public/monitor.html</code>. Petugas wajib melakukan <strong>klik satu
+                        kali</strong> pada area layar mana saja untuk memicu aktivasi sistem audio bel browser.
+                </p>
+            </div>
+
+            <div>
+                <div class="step-title">Langkah 3: Pemanggilan Pasien (HP Dokter)</div>
+                <p>Dokter membuka HP pribadinya, mengakses portal utama <code>http://IP_SERVER:5500</code>, dan masuk ke
+                    Panel Medis sesuai poliklinik tugasnya. Ketika dokter menekan tombol <strong>"Panggil
+                        Selanjutnya"</strong>, server memperbarui status data di harddisk, merubah nomor di TV ruang
+                    tunggu, dan langsung menyalakan bunyi bel panggilan.</p>
+            </div>
+
+            <div>
+                <div class="step-title">Langkah 4: Penyelesaian Sesi</div>
+                <p>Begitu penanganan medis selesai, dokter menekan tombol <strong>"Selesai Penanganan"</strong> pada HP
+                    miliknya agar indikator loket di monitor TV berubah menjadi status <code>SELESAI</code> dan siap
+                    memanggil pasien selanjutnya.</p>
+            </div>
+        </div>
+
+        <!-- SECTION 3 -->
+        <div class="card">
+            <h2>3. Tim Pengembang Proyek</h2>
+            <p>Sistem perangkat lunak terdistribusi ini dikembangkan secara kolaboratif oleh:</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h4>RIKO</h4>
+                    <p>Fullstack Developer & Architecture</p>
+                </div>
+                <div class="team-member">
+                    <h4>IRMA,WIDYA,MUTAMIMMAH</h4>
+                    <p>Frontend UI/UX Designer</p>
+                </div>
+                <div class="team-member">
+                    <h4>RIYAD</h4>
+                    <p>Quality Assurance & Docs Analyst</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2026 Tim Proyek RS Waluyo. Dibuat untuk memenuhi Tugas Besar Pengembangan Perangkat Lunak. Hosted via
+            GitHub Pages.
+        </footer>
+    </div>
+
+</body>
+
+</html>

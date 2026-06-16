@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kios Tiket Mandiri - RS Sehat Waluyo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col justify-between p-6">
+
+    <header class="max-w-4xl mx-auto w-full border-b pb-4 flex justify-between items-center">
+        <span class="font-black text-blue-600 text-xl tracking-tight">RS SEHAT WALUYO</span>
+        <span class="text-[10px] font-bold text-slate-400 bg-slate-200/60 px-3 py-1.5 rounded-xl uppercase">Kios
+            Mandiri</span>
+    </header>
+
+    <main class="max-w-4xl mx-auto w-full my-auto text-center space-y-10">
+        <div class="space-y-2">
+            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Silakan Pilih Poliklinik Tujuan</h1>
+            <p class="text-sm text-slate-500">Sentuh layar untuk mengambil nomor antrian Anda.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            <button onclick="ambilAntrian('UMUM')"
+                class="group bg-white border-2 border-slate-100 hover:border-blue-500 rounded-3xl p-6 text-left shadow-sm hover:shadow-xl transition-all duration-300">
+                <div
+                    class="text-3xl p-4 bg-blue-50 text-blue-600 rounded-2xl w-fit group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    👨‍⚕️</div>
+                <h3 class="text-lg font-bold text-slate-900 mt-5">Poliklinik Umum</h3>
+                <span
+                    class="inline-block mt-2 text-[10px] font-bold bg-blue-50 text-blue-700 px-2.5 py-1 rounded-md">KODE
+                    A</span>
+            </button>
+            <button onclick="ambilAntrian('GIGI')"
+                class="group bg-white border-2 border-slate-100 hover:border-emerald-500 rounded-3xl p-6 text-left shadow-sm hover:shadow-xl transition-all duration-300">
+                <div
+                    class="text-3xl p-4 bg-emerald-50 text-emerald-600 rounded-2xl w-fit group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                    🦷</div>
+                <h3 class="text-lg font-bold text-slate-900 mt-5">Poliklinik Gigi</h3>
+                <span
+                    class="inline-block mt-2 text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md">KODE
+                    B</span>
+            </button>
+            <button onclick="ambilAntrian('ANAK')"
+                class="group bg-white border-2 border-slate-100 hover:border-purple-500 rounded-3xl p-6 text-left shadow-sm hover:shadow-xl transition-all duration-300">
+                <div
+                    class="text-3xl p-4 bg-purple-50 text-purple-600 rounded-2xl w-fit group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    👶</div>
+                <h3 class="text-lg font-bold text-slate-900 mt-5">Poliklinik Anak</h3>
+                <span
+                    class="inline-block mt-2 text-[10px] font-bold bg-purple-50 text-purple-700 px-2.5 py-1 rounded-md">KODE
+                    C</span>
+            </button>
+        </div>
+    </main>
+
+    <div id="modal-tiket"
+        class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white border w-full max-w-xs rounded-3xl p-6 shadow-2xl space-y-6 text-center border-slate-100">
+            <div class="border-b border-dashed border-slate-200 pb-3">
+                <h4 class="font-extrabold text-slate-900 text-base">RS SEHAT WALUYO</h4>
+                <p class="text-[10px] text-slate-400 uppercase mt-0.5">Tiket Antrian Anda</p>
+            </div>
+            <div class="space-y-1">
+                <h2 id="no-tiket" class="text-6xl font-black text-blue-600 tracking-tighter">A-000</h2>
+                <p class="text-xs text-slate-500 pt-3">Silakan duduk di ruang tunggu sampai nomor Anda dipanggil di
+                    layar TV.</p>
+            </div>
+            <button onclick="tutupTiket()"
+                class="w-full bg-slate-950 text-white text-xs font-bold py-3.5 rounded-xl hover:bg-slate-800 transition">Ambil
+                Struk & Selesai</button>
+        </div>
+    </div>
+
+    <footer class="text-center text-xs text-slate-400">&copy; 2026 RS Sehat Waluyo.</footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/src/js/kios.js"></script>
+</body>
+
+</html>

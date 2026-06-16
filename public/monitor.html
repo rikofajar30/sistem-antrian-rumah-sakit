@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Monitor Utama - RS Sehat Waluyo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #ffffff;
+            min-height: screen;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 16px 24px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
+        .header-title p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        #jam {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 28px;
+            border-radius: 12px;
+            color: #cbd5e1;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 32px;
+            margin: auto 0;
+            width: 100%;
+            max-w: 1280px;
+            padding: 0 16px;
+        }
+
+        .card {
+            background-color: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12px;
+        }
+
+        .card-umum::before {
+            background-color: #3b82f6;
+        }
+
+        .card-gigi::before {
+            background-color: #10b981;
+        }
+
+        .card-anak::before {
+            background-color: #a855f7;
+        }
+
+        .card-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 16px;
+        }
+
+        .title-umum {
+            color: #60a5fa;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
+
+        .title-gigi {
+            color: #34d399;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
+
+        .title-anak {
+            color: #c084fc;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin-top: 4px;
+        }
+
+        .nomor-wrapper {
+            padding: 40px 0;
+        }
+
+        .nomor-antrian {
+            font-size: 9rem;
+            font-weight: 900;
+            color: #ffffff;
+            display: block;
+            letter-spacing: -0.05em;
+            text-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .footer-card {
+            background-color: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 12px 0;
+            font-size: 1rem;
+            color: #94a3b8;
+        }
+
+        .doc-name {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: 4px;
+        }
+
+        .doc-umum {
+            color: #60a5fa;
+        }
+
+        .doc-gigi {
+            color: #34d399;
+        }
+
+        .doc-anak {
+            color: #c084fc;
+        }
+
+        footer {
+            background-color: rgba(15, 23, 42, 0.5);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-title">
+            <span style="font-size: 2rem;">🖥️</span>
+            <div>
+                <h1>MONITOR ANTRIAN UTAMA</h1>
+                <p>Klik 1x di area mana saja pada layar TV saat pertama kali dibuka agar suara bel aktif</p>
+            </div>
+        </div>
+        <div id="jam">00:00:00</div>
+    </header>
+
+    <main>
+        <div class="card card-umum">
+            <div class="card-header">
+                <h2 class="title-umum">POLI UMUM</h2>
+                <p class="subtitle">LOKET 01</p>
+            </div>
+            <div class="nomor-wrapper">
+                <span id="tv-UMUM" class="nomor-antrian">000</span>
+            </div>
+            <div class="footer-card">
+                Dokter: <span id="tv-doc-UMUM" class="doc-name doc-umum">-</span>
+            </div>
+        </div>
+
+        <div class="card card-gigi">
+            <div class="card-header">
+                <h2 class="title-gigi">POLI GIGI</h2>
+                <p class="subtitle">LOKET 02</p>
+            </div>
+            <div class="nomor-wrapper">
+                <span id="tv-GIGI" class="nomor-antrian">000</span>
+            </div>
+            <div class="footer-card">
+                Dokter: <span id="tv-doc-GIGI" class="doc-name doc-gigi">-</span>
+            </div>
+        </div>
+
+        <div class="card card-anak">
+            <div class="card-header">
+                <h2 class="title-anak">POLI ANAK</h2>
+                <p class="subtitle">LOKET 03</p>
+            </div>
+            <div class="nomor-wrapper">
+                <span id="tv-ANAK" class="nomor-antrian">000</span>
+            </div>
+            <div class="footer-card">
+                Dokter: <span id="tv-doc-ANAK" class="doc-name doc-anak">-</span>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 RS Sehat Waluyo. Real-Time LAN Intranet Network System.
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/src/js/monitor.js"></script>
+</body>
+
+</html>
