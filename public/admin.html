@@ -38,13 +38,15 @@
                 <span id="adm-nomor" class="text-6xl font-black text-slate-800 tracking-tight">000</span>
             </div>
 
+            <div class="bg-blue-50/70 border border-blue-100 rounded-2xl p-4 text-center">
+                <span class="text-xs font-semibold text-slate-400 block uppercase tracking-wider mb-1">Total Antrian
+                    Diambil Kios</span>
+                <span class="text-xl font-extrabold text-blue-600"><span id="total-diambil">0</span> Tiket</span>
+            </div>
             <div class="space-y-3">
                 <button onclick="mintaKonfirmasi()"
                     class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-sm shadow-md transition">🔊
                     Panggil Selanjutnya</button>
-                <button onclick="selesaiLayani()"
-                    class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl text-xs transition">✅
-                    Selesai Ditangani</button>
             </div>
         </div>
     </main>
@@ -70,6 +72,30 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/public/src/js/admin.js"></script>
+
+    <script>
+        // Gunakan koneksi socket yang sudah dibuka oleh file admin.js milik kelompokmu
+        const socketPelacakAngka = (typeof socket !== 'undefined') ? socket : io();
+
+        socketPelacakAngka.on('updateData', (data) => {
+            // Ambil nama poli dari localStorage (Isinya antara: 'Poli Umum', 'Poli Gigi', atau 'Poli Anak')
+            const poliAsli = localStorage.getItem('petugas_poli');
+            if (!poliAsli || !data || !data.counters) return;
+
+            // Konversi nama poli ke HURUF BESAR & ambil kata kuncinya saja (UMUM, GIGI, ANAK)
+            // Agar cocok dengan key database server: data.counters.UMUM, data.counters.GIGI, data.counters.ANAK
+            let keyPoliServer = "UMUM";
+            if (poliAsli.toUpperCase().includes("GIGI")) keyPoliServer = "GIGI";
+            if (poliAsli.toUpperCase().includes("ANAK")) keyPoliServer = "ANAK";
+
+            // Ambil nilai properti .current dari server sesuai poli yang aktif
+            const infoPoliAktif = data.counters[keyPoliServer];
+            if (infoPoliAktif && infoPoliAktif.current !== undefined) {
+                // Tembakkan langsung angkanya ke dalam box biru di layar dokter secara real-time!
+                document.getElementById('total-diambil').innerText = infoPoliAktif.current;
+            }
+        });
+    </script>
 </body>
 
 </html>

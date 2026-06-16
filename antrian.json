@@ -1,46 +1,12 @@
 {
   "tanggal": "Tue Jun 16 2026",
-  "history": [
-    {
-      "id": 1781578970627,
-      "poli": "UMUM",
-      "nomor": "A-001",
-      "status": "dipanggil",
-      "oleh": "dr. Budi"
-    },
-    {
-      "id": 1781578976454,
-      "poli": "UMUM",
-      "nomor": "A-002",
-      "status": "dipanggil",
-      "oleh": "dr. Budi"
-    },
-    {
-      "id": 1781578977884,
-      "poli": "UMUM",
-      "nomor": "A-003",
-      "status": "dipanggil",
-      "oleh": "dr. Budi"
-    },
-    {
-      "id": 1781578979095,
-      "poli": "UMUM",
-      "nomor": "A-004",
-      "status": "menunggu"
-    },
-    {
-      "id": 1781578980184,
-      "poli": "UMUM",
-      "nomor": "A-005",
-      "status": "menunggu"
-    }
-  ],
+  "history": [],
   "counters": {
     "UMUM": {
-      "current": 5,
-      "active": "A-003",
+      "current": 0,
+      "active": "000",
       "prefix": "A",
-      "petugas": "dr. Budi"
+      "petugas": "-"
     },
     "GIGI": {
       "current": 0,
