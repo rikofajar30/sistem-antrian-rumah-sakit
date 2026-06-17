@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
     <title>Kios Tiket Mandiri - RS Sehat Waluyo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
@@ -85,6 +86,15 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/public/src/js/kios.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker terdaftar Berhasil!', reg))
+                    .catch(err => console.log('Service Worker gagal didaftarkan:', err));
+            });
+        }
+    </script>
 </body>
 
 </html>
