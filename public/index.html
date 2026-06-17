@@ -105,39 +105,20 @@
         function masukSebagai(nama, poli) {
             localStorage.setItem('petugas_user', nama);
             localStorage.setItem('petugas_poli', poli);
-            // Link dirapikan menjadi relatif ./
             window.location.href = './admin.html';
         }
 
-        // OTOMATISASI REGISTRASI SERVICE WORKER PWA
+        // REGISTRASI SERVICE WORKER UNTUK KESTABILAN DATA CACHE LAN
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
                     .then(reg => {
                         console.log('PWA: Service Worker Aktif!', reg);
-                        reg.update(); // Memaksa browser memperbarui data manifest jika ada perubahan
+                        reg.update();
                     })
                     .catch(err => console.error('PWA: Registrasi Gagal:', err));
             });
         }
-        // Fungsi untuk memaksa layar penuh (menghilangkan search bar)
-        function aktifkanLayarPenuh() {
-            let de = document.documentElement;
-            if (de.requestFullscreen) {
-                de.requestFullscreen();
-            } else if (de.mozRequestFullScreen) { // Firefox
-                de.mozRequestFullScreen();
-            } else if (de.webkitRequestFullscreen) { // Chrome, Safari & Opera
-                de.webkitRequestFullscreen();
-            } else if (de.msRequestFullscreen) { // IE/Edge
-                de.msRequestFullscreen();
-            }
-        }
-
-        // Memicu layar penuh otomatis saat pengguna mengklik apa saja di area dokumen
-        document.addEventListener("click", function () {
-            aktifkanLayarPenuh();
-        });
     </script>
 </body>
 
