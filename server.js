@@ -3,13 +3,14 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs'; // <-- Modul bawaan Node.js untuk tulis-baca file ke Harddisk
+import fs from 'fs'; // Modul bawaan Node.js untuk tulis-baca file ke Harddisk
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
+// Menyajikan folder utama proyek dan folder public sebagai static file server
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -27,7 +28,8 @@ const DATA_DEFAULT = {
     }
 };
 
-let dataAntrian = { ...DATA_DEFAULT };
+// Melakukan Deep Copy agar data default asli tidak rusak/termodifikasi saat operasional berjalan
+let dataAntrian = JSON.parse(JSON.stringify(DATA_DEFAULT));
 
 // ==========================================
 // FUNGSI PENYELAMAT DATA (ANTI MATI LAMPU)
@@ -45,8 +47,10 @@ function muatDataDariHarddisk() {
                 dataAntrian = dataTersimpan;
                 console.log('💾 [SISTEM] Data antrian hari ini berhasil dipulihkan dari Harddisk!');
             } else {
-                // Jika sudah beda hari, otomatis reset ke 0 untuk hari baru
-                simpanDataKeHarddisk(DATA_DEFAULT);
+                // PERBAIKAN: Spasi pada nama variabel dataBaruHari sudah dihapus
+                const dataBaruHari = JSON.parse(JSON.stringify(DATA_DEFAULT));
+                simpanDataKeHarddisk(dataBaruHari);
+                dataAntrian = dataBaruHari;
                 console.log('🌅 [SISTEM] Hari baru terdeteksi. Antrian di-reset otomatis.');
             }
         } else {

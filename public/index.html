@@ -3,7 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <link rel="manifest" href="./manifest.json">
+
     <title>Portal Utama - RS Sehat Waluyo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
@@ -46,7 +53,7 @@
         </div>
 
         <div class="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <a href="/public/kios.html"
+            <a href="./kios.html"
                 class="group bg-white/5 border border-white/10 rounded-3xl p-8 text-left hover:bg-white/10 hover:border-blue-500/50 transition-all duration-300 relative overflow-hidden shadow-2xl">
                 <div class="absolute -right-6 -bottom-6 text-8xl opacity-5">📱</div>
                 <div class="bg-blue-600/20 p-3 rounded-2xl w-fit text-blue-400 font-bold text-sm mb-4">LAYAR 01</div>
@@ -55,7 +62,7 @@
                     poliklinik.</p>
             </a>
 
-            <a href="/public/monitor.html"
+            <a href="./monitor.html"
                 class="group bg-white/5 border border-white/10 rounded-3xl p-8 text-left hover:bg-white/10 hover:border-indigo-500/50 transition-all duration-300 relative overflow-hidden shadow-2xl">
                 <div class="absolute -right-6 -bottom-6 text-8xl opacity-5">🖥️</div>
                 <div class="bg-indigo-600/20 p-3 rounded-2xl w-fit text-indigo-400 font-bold text-sm mb-4">LAYAR 02
@@ -98,8 +105,39 @@
         function masukSebagai(nama, poli) {
             localStorage.setItem('petugas_user', nama);
             localStorage.setItem('petugas_poli', poli);
-            window.location.href = '/public/admin.html';
+            // Link dirapikan menjadi relatif ./
+            window.location.href = './admin.html';
         }
+
+        // OTOMATISASI REGISTRASI SERVICE WORKER PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => {
+                        console.log('PWA: Service Worker Aktif!', reg);
+                        reg.update(); // Memaksa browser memperbarui data manifest jika ada perubahan
+                    })
+                    .catch(err => console.error('PWA: Registrasi Gagal:', err));
+            });
+        }
+        // Fungsi untuk memaksa layar penuh (menghilangkan search bar)
+        function aktifkanLayarPenuh() {
+            let de = document.documentElement;
+            if (de.requestFullscreen) {
+                de.requestFullscreen();
+            } else if (de.mozRequestFullScreen) { // Firefox
+                de.mozRequestFullScreen();
+            } else if (de.webkitRequestFullscreen) { // Chrome, Safari & Opera
+                de.webkitRequestFullscreen();
+            } else if (de.msRequestFullscreen) { // IE/Edge
+                de.msRequestFullscreen();
+            }
+        }
+
+        // Memicu layar penuh otomatis saat pengguna mengklik apa saja di area dokumen
+        document.addEventListener("click", function () {
+            aktifkanLayarPenuh();
+        });
     </script>
 </body>
 

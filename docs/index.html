@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <title>Dokumentasi Resmi Sistem Antrian RS Waluyo</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -57,6 +61,24 @@
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
+        }
+
+        /* CARD UPDATE SUKSES UNTUK LAPORAN TUGAS BESAR */
+        .alert-success {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+
+        .alert-success h3 {
+            color: #14532d;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1.25rem;
+            font-weight: 700;
         }
 
         h2 {
@@ -169,8 +191,18 @@
     <div class="container">
         <header>
             <h1>🏥 PORTAL DOKUMENTASI RESMI</h1>
-            <p>Sistem Antrian LAN Terdistribusi RS Waluyo (Anti-Blackout Version)</p>
+            <p>Sistem Antrian LAN Terdistribusi RS Waluyo (Anti-Blackout & Fullscreen Version)</p>
         </header>
+
+        <div class="alert-success">
+            <h3>💡 UPDATE IMPLEMENTASI: Solusi Search Bar Teratasi!</h3>
+            <p>Berdasarkan pengujian lapangan, kendala <em>search bar</em> browser pada perangkat client seluler/tablet
+                berhasil diselesaikan secara mutlak menggunakan mekanisme pembungkus aplikasi <strong>Hermit (Lite Apps
+                    Browser)</strong> tanpa memerlukan infrastruktur SSL/HTTPS lokal.</p>
+            <p>Namun, guna menjamin fleksibilitas operasional jika sistem diakses dari browser konvensional, fitur
+                otomatisasi penyamaran bar navigasi (Fullscreen API) juga telah berhasil diintegrasikan langsung pada
+                kode web ini.</p>
+        </div>
 
         <div class="card">
             <h2>1. Gambaran Umum Sistem</h2>
@@ -243,7 +275,7 @@
 
             <div>
                 <div class="step-title">Langkah 3: Pemanggilan Pasien (HP Dokter)</div>
-                <p>Dokter membuka HP pribadinya, mengakses portal utama <code>http://IP_SERVER:5500</code>, dan masuk ke
+                <p>Dokter membuka HP pribadinya, accessing portal utama <code>http://IP_SERVER:5500</code>, dan masuk ke
                     Panel Medis sesuai poliklinik tugasnya. Sesi login tersimpan otomatis di browser
                     (<code>localStorage.getItem('petugas_poli')</code>). Dokter dapat melacak total antrian di kios
                     lewat box status <strong>Total Antrian Diambil Kios</strong>. Ketika menekan tombol <strong>"Panggil
@@ -279,7 +311,8 @@
                 <li><strong>Mengetahui IP Lokal Server:</strong> Buka terminal baru dan ketik perintah
                     <code>ipconfig</code> (Windows) atau <code>ifconfig</code> (Mac/Linux). Cari bagian <em>IPv4
                         Address</em> pada adaptor jaringan Wi-Fi/Ethernet yang aktif (Contoh:
-                    <code>192.168.1.15</code>). Catat nomor IP ini.</li>
+                    <code>192.168.1.15</code>). Catat nomor IP ini.
+                </li>
                 <li><strong>Menjalankan Server:</strong> Eksekusi program backend dengan mengetik perintah berikut di
                     terminal:
                     <pre>node server.js</pre>
@@ -293,19 +326,21 @@
                 Firewall untuk jaringan lokal (Private Network) secara sementara selama simulasi berlangsung guna
                 menghindari error <code>Connection Timed Out</code>.</p>
 
-            <h3>Bagian C: Menghubungkan Perangkat Client (Laptop/HP Orang Lain)</h3>
-            <p>Pastikan semua perangkat client terhubung ke router Wi-Fi atau access point lokal yang
-                <strong>sama</strong> dengan laptop server. Perangkat client <strong>tidak perlu menginstal
-                    Node.js</strong>, mereka cukup membuka web browser dan mengakses URL berikut menggunakan IP Lokal
-                Server yang telah dicatat sebelumnya:</p>
-
-            <ul>
-                <li><strong>Kios Pengambilan Tiket
-                        Pasien:</strong><br><code>http://IP_SERVER_ANDA:5500/public/kios.html</code></li>
-                <li><strong>Layar TV Monitor Ruang
-                        Tunggu:</strong><br><code>http://IP_SERVER_ANDA:5500/public/monitor.html</code></li>
-                <li><strong>Portal Utama / Dashboard HP Dokter:</strong><br><code>http://IP_SERVER_ANDA:5500</code></li>
-            </ul>
+            <h3>Bagian C: Menghubungkan Perangkat Client Android via Hermit App</h3>
+            <p>Untuk menghilangkan search bar secara permanen tanpa konfigurasi sertifikat HTTPS, ikuti panduan berikut
+                pada perangkat client:</p>
+            <ol>
+                <li>Sambungkan perangkat HP/Tablet dokter dan kios ke jaringan Wi-Fi lokal yang sama dengan server.</li>
+                <li>Unduh aplikasi <strong>Hermit: Lite Apps Browser</strong> dari Google Play Store.</li>
+                <li>Buka aplikasi Hermit, pilih menu <strong>"Create Custom Lite App"</strong> (Buat Aplikasi Kustom).
+                </li>
+                <li>Masukkan alamat IP server kalian (Contoh: <code>http://192.168.1.15:5500</code>) lalu beri nama
+                    aplikasi.</li>
+                <li>Buka menu setelan internal Hermit untuk aplikasi tersebut, lalu aktifkan centang fitur
+                    <strong>"Frameless"</strong> atau <strong>"Fullscreen"</strong>.</li>
+                <li>Gunakan ikon shortcut baru yang dibuat Hermit di layar utama. Aplikasi dipastikan berjalan layaknya
+                    aplikasi Android bawaan asli.</li>
+            </ol>
         </div>
 
         <div class="card">
@@ -333,6 +368,25 @@
         </footer>
     </div>
 
+    <script>
+        function aktifkanLayarPenuh() {
+            let de = document.documentElement;
+            if (de.requestFullscreen) {
+                de.requestFullscreen();
+            } else if (de.mozRequestFullScreen) { /* Firefox */
+                de.mozRequestFullScreen();
+            } else if (de.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                de.webkitRequestFullscreen();
+            } else if (de.msRequestFullscreen) { /* IE/Edge */
+                de.msRequestFullscreen();
+            }
+        }
+
+        // Otomatis aktifkan layar penuh ketika user melakukan klik pertama di mana saja pada area dokumen
+        document.addEventListener("click", function () {
+            aktifkanLayarPenuh();
+        });
+    </script>
 </body>
 
 </html>
